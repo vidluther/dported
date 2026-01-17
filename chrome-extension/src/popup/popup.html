@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dported Currency Converter</title>
+        <link rel="stylesheet" href="popup.css" />
+    </head>
+    <body>
+        <div class="popup-container">
+            <header class="popup-header">
+                <h1>Dported Currency Converter</h1>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="enabledToggle" checked />
+                    <span class="toggle-slider"></span>
+                </label>
+            </header>
+
+            <section class="rate-section">
+                <div class="rate-display">
+                    <span class="rate-label">Current Rate</span>
+                    <div class="rate-value">
+                        <span>1 USD = </span>
+                        <span id="currentRate">--</span>
+                        <span> INR</span>
+                    </div>
+                    <span class="rate-source" id="rateSource">Loading...</span>
+                </div>
+                <button
+                    class="refresh-btn"
+                    id="refreshBtn"
+                    title="Refresh rates"
+                >
+                    <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path d="M23 4v6h-6M1 20v-6h6"></path>
+                        <path
+                            d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"
+                        ></path>
+                    </svg>
+                </button>
+            </section>
+
+            <section class="settings-section">
+                <div class="setting-row">
+                    <label class="setting-label" for="manualRateToggle">
+                        Use manual rate
+                    </label>
+                    <label class="toggle-switch small">
+                        <input type="checkbox" id="manualRateToggle" />
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="manual-rate-input" id="manualRateContainer">
+                    <label for="manualRateInput"
+                        >Manual rate (INR per USD)</label
+                    >
+                    <input
+                        type="number"
+                        id="manualRateInput"
+                        step="0.01"
+                        min="0"
+                        placeholder="83.00"
+                    />
+                </div>
+            </section>
+
+            <footer class="popup-footer">
+                <span class="last-updated" id="lastUpdated"
+                    >Last updated: --</span
+                >
+            </footer>
+        </div>
+
+        <script src="popup.js"></script>
+    </body>
+</html>

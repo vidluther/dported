@@ -1,0 +1,124 @@
+/* Currency Converter Tooltip Styles */
+
+/* Detected price styling - subtle underline indicator */
+.currency-converter-price {
+  cursor: pointer;
+  border-bottom: 1px dotted rgba(100, 100, 100, 0.5);
+  transition: border-color 0.2s ease;
+}
+
+.currency-converter-price:hover {
+  border-bottom-color: rgba(66, 133, 244, 0.8);
+}
+
+/* Tooltip container */
+.currency-converter-tooltip {
+  position: fixed;
+  z-index: 2147483647;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  white-space: nowrap;
+  max-width: 280px;
+}
+
+.currency-converter-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Tooltip arrow */
+.currency-converter-tooltip::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+}
+
+/* Arrow positioning - bottom tooltip (arrow on top) */
+.currency-converter-tooltip.position-bottom::before {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: #1a1a2e;
+}
+
+/* Arrow positioning - top tooltip (arrow on bottom) */
+.currency-converter-tooltip.position-top::before {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: #16213e;
+}
+
+/* Tooltip content layout */
+.currency-converter-tooltip-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Converted value (main) */
+.currency-converter-tooltip-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #4ade80;
+}
+
+/* Original value and rate info */
+.currency-converter-tooltip-original {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Rate info */
+.currency-converter-tooltip-rate {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 2px;
+}
+
+/* Disabled state message */
+.currency-converter-tooltip-disabled {
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
+/* Loading state */
+.currency-converter-tooltip-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.currency-converter-tooltip-loading::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #4ade80;
+  border-radius: 50%;
+  animation: currency-converter-spin 0.8s linear infinite;
+}
+
+@keyframes currency-converter-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state */
+.currency-converter-tooltip-error {
+  color: #f87171;
+}
