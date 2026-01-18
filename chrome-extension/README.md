@@ -1,6 +1,6 @@
-# Unit Converter Chrome Extension
+# BrowseAbroad Chrome Extension
 
-A Chrome extension that detects measurement units on a web page and shows unit conversions on hover.
+A Chrome extension that detects prices and measurement units on web pages and shows conversions on hover.
 
 99% of this code was written by Claude Code, hopefully it doesn't start buying things on your behalf.
 

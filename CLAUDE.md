@@ -4,12 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Dported is a collection of tools for people navigating life across borders, starting with currency and unit conversion utilities. Currently contains a Chrome extension; Firefox and Safari extensions are planned.
+BrowseAbroad is a collection of tools for people navigating life across borders, starting with currency and unit conversion utilities. Currently contains a Chrome extension; Firefox and Safari extensions are planned.
 
 ## Repository Structure
 
 ```
-dported/
+BrowseAbroad/
 ├── chrome-extension/    # Currency/unit converter Chrome extension
 │   └── CLAUDE.md        # Detailed extension-specific guidance
 └── README.md
