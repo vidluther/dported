@@ -1,9 +1,8 @@
-# Dported
+# BrowseAbroad
 
+A collection of tools for navigating websites across borders, starting with currency and unit conversion utilities.
 
-I'm building this for myself first, I've been deported to India from the United States. So, I need help calculating the price of things from INR to USD.
-
-For example, if I see a price of 100 INR on a website, I want to know how much that is in USD. Keeping the iOS calculator open in currency conversion mode is not that much fun. 
+I built this for myself while living between countries. I needed an easy way to compare prices between INR and USD without constantly using a calculator. 
 
 I'm also going to need help with unit conversions. For example, cm to inches, kg to lbs, and Fahrenheit to Celsius.. etc etc.
 
