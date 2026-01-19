@@ -9,8 +9,8 @@ const PriceDetector = {
     INR: [
       // ₹1,234.56 or ₹ 1,234.56
       /₹\s*([\d,]+(?:\.\d{1,2})?)/g,
-      // Rs. 1,234.56 or Rs 1,234.56
-      /Rs\.?\s*([\d,]+(?:\.\d{1,2})?)/gi,
+      // Rs. 1,234.56 or Rs 1,234.56 (word boundary prevents matching "hours 20")
+      /\bRs\.?\s*([\d,]+(?:\.\d{1,2})?)/gi,
       // INR 1,234.56
       /INR\s*([\d,]+(?:\.\d{1,2})?)/gi
     ],
@@ -34,7 +34,7 @@ const PriceDetector = {
     // Create a combined pattern that captures the full price string
     const inrPatterns = [
       '₹\\s*[\\d,]+(?:\\.\\d{1,2})?',
-      'Rs\\.?\\s*[\\d,]+(?:\\.\\d{1,2})?',
+      '\\bRs\\.?\\s*[\\d,]+(?:\\.\\d{1,2})?',
       'INR\\s*[\\d,]+(?:\\.\\d{1,2})?'
     ];
     const usdPatterns = [
@@ -224,7 +224,7 @@ const PriceDetector = {
     let currency = null;
 
     // Check for INR patterns (₹ or Rs.)
-    const inrMatch = text.match(/(?:₹|Rs\.?)\s*([\d,]+(?:\.\d{1,2})?)/i);
+    const inrMatch = text.match(/(?:₹|\bRs\.?)\s*([\d,]+(?:\.\d{1,2})?)/i);
     if (inrMatch) {
       currency = 'INR';
       amount = parseFloat(inrMatch[1].replace(/,/g, ''));
@@ -232,8 +232,8 @@ const PriceDetector = {
 
     // Check for just numbers with rupee symbol somewhere in parent
     if (!currency) {
-      const hasRupeeSymbol = text.includes('₹') || /Rs\.?/i.test(text) ||
-        (element.closest && /₹|Rs\.?/i.test(element.closest('[class*="price"]')?.textContent || ''));
+      const hasRupeeSymbol = text.includes('₹') || /\bRs\.?/i.test(text) ||
+        (element.closest && /₹|\bRs\.?/i.test(element.closest('[class*="price"]')?.textContent || ''));
       const numberMatch = text.match(/^[\d,]+(?:\.\d{1,2})?$/);
       if (hasRupeeSymbol && numberMatch) {
         currency = 'INR';

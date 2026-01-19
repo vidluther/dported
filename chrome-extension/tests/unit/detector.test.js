@@ -461,6 +461,164 @@ describe('PriceDetector', () => {
     });
   });
 
+  describe('False Positive Prevention - Rs word boundary', () => {
+    describe('should NOT match "rs" within words (false positives)', () => {
+      it('should not match "12 hours 20 minutes"', () => {
+        const container = document.createElement('div');
+        container.textContent = '12 hours 20 minutes';
+        document.body.appendChild(container);
+
+        PriceDetector.scanDOM(container);
+        const prices = container.querySelectorAll('.currency-converter-price');
+
+        expect(prices.length).toBe(0);
+        container.remove();
+      });
+
+      it('should not match "3 hours 5 minutes"', () => {
+        const container = document.createElement('div');
+        container.textContent = '3 hours 5 minutes';
+        document.body.appendChild(container);
+
+        PriceDetector.scanDOM(container);
+        const prices = container.querySelectorAll('.currency-converter-price');
+
+        expect(prices.length).toBe(0);
+        container.remove();
+      });
+
+      it('should not match "yours 50"', () => {
+        const container = document.createElement('div');
+        container.textContent = 'yours 50';
+        document.body.appendChild(container);
+
+        PriceDetector.scanDOM(container);
+        const prices = container.querySelectorAll('.currency-converter-price');
+
+        expect(prices.length).toBe(0);
+        container.remove();
+      });
+
+      it('should not match "colors 100"', () => {
+        const container = document.createElement('div');
+        container.textContent = 'colors 100';
+        document.body.appendChild(container);
+
+        PriceDetector.scanDOM(container);
+        const prices = container.querySelectorAll('.currency-converter-price');
+
+        expect(prices.length).toBe(0);
+        container.remove();
+      });
+    });
+
+    describe('should still match valid Rs patterns', () => {
+      it('should match "Rs. 100" at start of string', () => {
+        const container = document.createElement('div');
+        container.textContent = 'Rs. 100';
+        document.body.appendChild(container);
+
+        PriceDetector.scanDOM(container);
+        const prices = container.querySelectorAll('.currency-converter-price');
+
+        expect(prices.length).toBe(1);
+        expect(prices[0].getAttribute('data-amount')).toBe('100');
+        container.remove();
+      });
+
+      it('should match "Rs 100" without dot', () => {
+        const container = document.createElement('div');
+        container.textContent = 'Rs 100';
+        document.body.appendChild(container);
+
+        PriceDetector.scanDOM(container);
+        const prices = container.querySelectorAll('.currency-converter-price');
+
+        expect(prices.length).toBe(1);
+        expect(prices[0].getAttribute('data-amount')).toBe('100');
+        container.remove();
+      });
+
+      it('should match "RS. 100" uppercase', () => {
+        const container = document.createElement('div');
+        container.textContent = 'RS. 100';
+        document.body.appendChild(container);
+
+        PriceDetector.scanDOM(container);
+        const prices = container.querySelectorAll('.currency-converter-price');
+
+        expect(prices.length).toBe(1);
+        expect(prices[0].getAttribute('data-amount')).toBe('100');
+        container.remove();
+      });
+
+      it('should match "rs 100" lowercase', () => {
+        const container = document.createElement('div');
+        container.textContent = 'rs 100';
+        document.body.appendChild(container);
+
+        PriceDetector.scanDOM(container);
+        const prices = container.querySelectorAll('.currency-converter-price');
+
+        expect(prices.length).toBe(1);
+        expect(prices[0].getAttribute('data-amount')).toBe('100');
+        container.remove();
+      });
+
+      it('should match "Rs. 1,00,000" with Indian comma format', () => {
+        const container = document.createElement('div');
+        container.textContent = 'Rs. 1,00,000';
+        document.body.appendChild(container);
+
+        PriceDetector.scanDOM(container);
+        const prices = container.querySelectorAll('.currency-converter-price');
+
+        expect(prices.length).toBe(1);
+        expect(prices[0].getAttribute('data-amount')).toBe('100000');
+        container.remove();
+      });
+
+      it('should match "Buy now for Rs. 500" after text', () => {
+        const container = document.createElement('div');
+        container.textContent = 'Buy now for Rs. 500';
+        document.body.appendChild(container);
+
+        PriceDetector.scanDOM(container);
+        const prices = container.querySelectorAll('.currency-converter-price');
+
+        expect(prices.length).toBe(1);
+        expect(prices[0].getAttribute('data-amount')).toBe('500');
+        container.remove();
+      });
+
+      it('should match "Price:Rs.250" after punctuation', () => {
+        const container = document.createElement('div');
+        container.textContent = 'Price:Rs.250';
+        document.body.appendChild(container);
+
+        PriceDetector.scanDOM(container);
+        const prices = container.querySelectorAll('.currency-converter-price');
+
+        expect(prices.length).toBe(1);
+        expect(prices[0].getAttribute('data-amount')).toBe('250');
+        container.remove();
+      });
+
+      it('should match "(Rs. 750)" in parentheses', () => {
+        const container = document.createElement('div');
+        container.textContent = '(Rs. 750)';
+        document.body.appendChild(container);
+
+        PriceDetector.scanDOM(container);
+        const prices = container.querySelectorAll('.currency-converter-price');
+
+        expect(prices.length).toBe(1);
+        expect(prices[0].getAttribute('data-amount')).toBe('750');
+        container.remove();
+      });
+    });
+  });
+
   describe('Regex Pattern Tests', () => {
     describe('combinedPattern', () => {
       it('should match INR patterns', () => {
