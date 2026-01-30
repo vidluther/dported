@@ -16,8 +16,9 @@ const Converters = {
     if (from === to) return amount;
 
     // Convert to USD first (base currency), then to target
-    const amountInUSD = from === 'USD' ? amount : amount / rates[from];
-    const convertedAmount = to === 'USD' ? amountInUSD : amountInUSD * rates[to];
+    const amountInUSD = from === "USD" ? amount : amount / rates[from];
+    const convertedAmount =
+      to === "USD" ? amountInUSD : amountInUSD * rates[to];
 
     return convertedAmount;
   },
@@ -29,18 +30,33 @@ const Converters = {
    * @returns {string} Formatted currency string
    */
   formatCurrency(amount, currency) {
-    const symbols = {
-      'USD': '$',
-      'INR': '₹'
+    const currencyLocales = {
+      USD: "en-US",
+      INR: "en-IN",
+      EUR: "de-DE",
+      GBP: "en-GB",
     };
 
-    const locale = currency === 'INR' ? 'en-IN' : 'en-US';
-    const formatted = new Intl.NumberFormat(locale, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(amount);
+    const locale = currencyLocales[currency] || "en-US";
 
-    return `${symbols[currency] || currency + ' '}${formatted}`;
+    try {
+      return new Intl.NumberFormat(locale, {
+        style: "currency",
+        currency: currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(amount);
+    } catch (e) {
+      // Fallback for unknown currency codes
+      return (
+        new Intl.NumberFormat("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(amount) +
+        " " +
+        currency
+      );
+    }
   },
 
   /**
@@ -52,12 +68,12 @@ const Converters = {
    */
   convertUnits(value, from, to) {
     const conversions = {
-      'cm_to_inches': 0.393701,
-      'inches_to_cm': 2.54,
-      'm_to_feet': 3.28084,
-      'feet_to_m': 0.3048,
-      'kg_to_lbs': 2.20462,
-      'lbs_to_kg': 0.453592
+      cm_to_inches: 0.393701,
+      inches_to_cm: 2.54,
+      m_to_feet: 3.28084,
+      feet_to_m: 0.3048,
+      kg_to_lbs: 2.20462,
+      lbs_to_kg: 0.453592,
     };
 
     const key = `${from}_to_${to}`;
@@ -76,19 +92,19 @@ const Converters = {
    */
   formatUnit(value, unit) {
     const unitLabels = {
-      'cm': 'cm',
-      'inches': 'in',
-      'm': 'm',
-      'feet': 'ft',
-      'kg': 'kg',
-      'lbs': 'lbs'
+      cm: "cm",
+      inches: "in",
+      m: "m",
+      feet: "ft",
+      kg: "kg",
+      lbs: "lbs",
     };
 
     return `${value.toFixed(2)} ${unitLabels[unit] || unit}`;
-  }
+  },
 };
 
 // Make available globally for content scripts
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   window.Converters = Converters;
 }
