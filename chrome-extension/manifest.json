@@ -12,6 +12,7 @@
     {
       "matches": ["<all_urls>"],
       "js": [
+        "src/config/currencies.config.js",
         "src/utils/converters.js",
         "src/content/detector.js",
         "src/content/content.js"
